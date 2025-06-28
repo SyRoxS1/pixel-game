@@ -74,6 +74,7 @@ def index():
 
         if select_name(request.cookies.get("game")) == game_title_guess:
             print(f"Correct guess: {game_title_guess}")
+            game_title_guess += "✅" 
             pixelization_degree = 1
             original_image_path = select_image(request.cookies.get("game"))
             original_image_path = "images/" + original_image_path
@@ -88,6 +89,7 @@ def index():
         
         elif attempt_count == 6:
             print(f"Incorrect guess: {game_title_guess}")
+            game_title_guess += "❌"
             pixelization_degree = 1
             original_image_path = select_image(request.cookies.get("game"))
             original_image_path = "images/" + original_image_path
@@ -99,7 +101,9 @@ def index():
             response = make_response(render_template('lost.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=select_name(request.cookies.get("game"))))
             response.set_cookie("won", str(0), max_age=60*60*24)
             return response
-
+        else:
+            print(f"Incorrect guess: {game_title_guess}")
+            game_title_guess += "❌"
 
         
         
