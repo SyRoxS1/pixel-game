@@ -2,6 +2,18 @@ import requests
 import json
 import time
 from artwork import dl_image
+from dtb_instert import insert_image
+import os
+
+if not os.path.exists("secret_client_id"):
+    secret = input("Enter your IGDB Client ID: ")
+    with open("secret_client_id", "w") as f:
+        f.write(secret)
+        
+if not os.path.exists("secret_client_key"):
+    secret = input("Enter your IGDB Access Token: ")
+    with open("secret_client_key", "w") as f:
+        f.write(secret)
 
 with open("secret_client_id","r") as f:
     CLIENT_ID = f.read().strip()
@@ -40,4 +52,10 @@ for game in all_games:
     game_id = game["id"]
     game_name = game["name"]
     print(f"Game ID: {game_id}, Name: {game_name}")
-    dl_image(game_id)
+    downloading = dl_image(game_id)
+    if downloading:
+        print(f"Downloaded image for {game_name} (ID: {game_id})")
+        insert_image(game_name, f"{game_id}.jpg")
+    else:
+        print(f"No image found for {game_name} (ID: {game_id})")
+    

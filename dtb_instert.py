@@ -1,4 +1,3 @@
-import psycopg2
 from dtb_con import get_db_connection
 
 def insert_image(game_name, image_path):

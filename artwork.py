@@ -1,11 +1,19 @@
 import requests
+import os
 
-# Your IGDB API credentials
-
+if not os.path.exists("secret_client_id"):
+    secret = input("Enter your IGDB Client ID: ")
+    with open("secret_client_id", "w") as f:
+        f.write(secret)
+        
+if not os.path.exists("secret_client_key"):
+    secret = input("Enter your IGDB Access Token: ")
+    with open("secret_client_key", "w") as f:
+        f.write(secret)
 
 with open("secret_client_id","r") as f:
     CLIENT_ID = f.read().strip()
-    
+
 with open("secret_access_token","r") as f:
     ACCESS_TOKEN = f.read().strip()
 
@@ -37,10 +45,11 @@ def dl_image(GAME_ID):
         print("Cover Image URL:", image_url)
         with open("images/"+str(GAME_ID)+'.jpg', 'wb') as handler:
             handler.write(img_data)
+        return True
     else:
         with open("no_cover.txt","a") as d:
             d.write(str(GAME_ID)+"\n")
-        print("No cover found for that game ID : ",GAME_ID)
+        return False
 
 
 
