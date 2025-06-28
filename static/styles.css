@@ -110,11 +110,13 @@ h1 {
   background-color: white;
   width: 200px;
   z-index: 10;
+  color: black; /* ← Add this */
 }
 
 #suggestions li {
   padding: 8px;
   cursor: pointer;
+  color: black; /* ← Add this too for extra safety */
 }
 
 #suggestions li:hover {
