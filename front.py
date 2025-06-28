@@ -64,25 +64,12 @@ def index():
         game_title_guess = request.form.get("game")
 
 
-        guess1 = request.cookies.get("guess1", "")
-        guess2 = request.cookies.get("guess2", "")
-        guess3 = request.cookies.get("guess3", "")
-        guess4 = request.cookies.get("guess4", "")
-        guess5 = request.cookies.get("guess5", "")
-        guess6 = request.cookies.get("guess6", "")
+        # Retrieve previous guesses from cookies using a loop
+        guesses = [request.cookies.get(f"guess{i}", "") for i in range(1, 7)]
+        guess1, guess2, guess3, guess4, guess5, guess6 = guesses
 
-        if attempt_count == 1:
-            guess1 = game_title_guess
-        elif attempt_count == 2:
-            guess2 = game_title_guess
-        elif attempt_count == 3:
-            guess3 = game_title_guess
-        elif attempt_count == 4:
-            guess4 = game_title_guess
-        elif attempt_count == 5:
-            guess5 = game_title_guess
-        elif attempt_count == 6:
-            guess6 = game_title_guess
+        if 1 <= attempt_count <= 6:
+            locals()[f'guess{attempt_count}'] = game_title_guess
 
 
         if select_name(request.cookies.get("game")) == game_title_guess:
