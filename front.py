@@ -72,7 +72,14 @@ def index():
         if attempt_count < 6:
             attempt_count += 1  # Increase attempt count
         print(f"Attempt #{attempt_count}: {game_title_guess}")
-        response = make_response(render_template('index.html', b64_img = image))
+        guess1 = request.cookies.get("guess1", "")
+        guess2 = request.cookies.get("guess2", "")
+        guess3 = request.cookies.get("guess3", "")
+        guess4 = request.cookies.get("guess4", "")
+        guess5 = request.cookies.get("guess5", "")
+        guess6 = request.cookies.get("guess6", "")
+
+        response = make_response(render_template('index.html', b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6))
         response.set_cookie("guess"+str(attempt_count), game_title_guess, max_age=60*60*24)
         response.set_cookie("attempts", str(attempt_count), max_age=60*60*24)  # 1 day expiry
         return response
