@@ -2,12 +2,15 @@ from flask import Flask, render_template, request, redirect, url_for, make_respo
 from pixelize import pixelize_image
 from convert_image_base64 import convert_image_to_base64
 from count_nb_images_in_table import count_images
-from dtb_select_game_from_rndm_nbrs import select_image
+from dtb_select_game_img_path_from_rndm_nbrs import select_image
+from dtb_select_game_name_from_rndm_nbrs import select_name
 import random
 
 app = Flask(__name__)
 @app.route('/', methods=['GET','POST'],)
 def index():
+    if Won == True:
+        return render_template('won.html', game_name=select_name(request.cookies.get("game")))
     attempt_count = int(request.cookies.get("attempts", 0))
 
     if attempt_count == 0:
@@ -52,7 +55,13 @@ def index():
     image = convert_image_to_base64(pixelize_image_path)
 
     if request.method == "POST":
+
         game_title_guess = request.form.get("game")
+        if select_name(request.cookies.get("game")) == game_title_guess:
+            print(f"Correct guess: {game_title_guess}")
+            attempt_count = 0
+            Won = True
+
         if attempt_count < 6:
             attempt_count += 1  # Increase attempt count
         print(f"Attempt #{attempt_count}: {game_title_guess}")
