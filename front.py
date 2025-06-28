@@ -14,8 +14,9 @@ def index():
         random_game_id = random.randint(0, count_images())
         original_image_path = select_image(request.cookies.get("game"))
         print(f"Selected image path: {original_image_path}")
-    
+
         pixelize_image_path = "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg"
+        print(f"Pixelizing image at: {pixelize_image_path} to attempt count: {attempt_count} to {original_image_path}")
         pixelize_image(original_image_path, pixelize_image_path, attempt_count)
         image = convert_image_to_base64(pixelize_image_path)
         response = make_response(render_template('index.html',b64_img = image))
