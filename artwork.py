@@ -17,7 +17,7 @@ def dl_image(GAME_ID):
     with open("secret_client_id","r") as f:
         CLIENT_ID = f.read().strip()
     
-    with open("secret_access_key","r") as f:
+    with open("secret_client_key","r") as f:
         ACCESS_TOKEN = f.read().strip()
 
     # Set the API endpoint
