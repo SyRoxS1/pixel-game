@@ -6,7 +6,7 @@ from artwork import dl_image
 with open("secret_client_id","r") as f:
     CLIENT_ID = f.read().strip()
     
-with open("secret_access_token","r") as f:
+with open("secret_client_key","r") as f:
     ACCESS_TOKEN = f.read().strip()
 
 url = "https://api.igdb.com/v4/games"
@@ -38,4 +38,6 @@ while True:
 
 for game in all_games:
     game_id = game["id"]
+    game_name = game["name"]
+    print(f"Game ID: {game_id}, Name: {game_name}")
     dl_image(game_id)
