@@ -124,7 +124,7 @@ def search():
     results = search_name(query)
     return jsonify(results)
 
-@app.route("/reset")
+@app.route("/reset",methods=['GET','POST'],)
 def reset():
     resp = make_response(redirect('/'))  # or render_template(...) if you prefer
     for cookie in request.cookies:
