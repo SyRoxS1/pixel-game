@@ -12,11 +12,11 @@ def index():
 
     if not request.cookies.get("game"):
         random_game_id = random.randint(0, count_images())
-        response = make_response(render_template('index.html'))
+        response = make_response(render_template('index.html',b64_img = image))
         response.set_cookie("game", str(random_game_id), max_age=60*60*24)
         return response
 
-    original_image_path = select_image(int(request.cookies.get("game")))
+    original_image_path = select_image(request.cookies.get("game"))
     pixelize_image(original_image_path, "tmp/"+request.cookies.get("game")+ attempt_count +".jpg",attempt_count)
     image = convert_image_to_base64("tmp/"+request.cookies.get("game")+ attempt_count +".jpg")
 
