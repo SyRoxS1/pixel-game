@@ -36,15 +36,26 @@ def dl_image(GAME_ID):
     response = requests.post(url, headers=headers, data=body)
 
     # Parse the response
-    data = response.json()
+    try:
+        data = response.json()
+    except:
+        print("Error parsing response:", response.text)
+        return False
 
     if data:
         cover = data[0]
         image_id = cover['image_id']
         # Construct the image URL - choose size from 'thumb', 'cover_small', 'cover_big', etc.
         image_url = f'https://images.igdb.com/igdb/image/upload/t_1080p/{image_id}.jpg'
-        img_data = requests.get(image_url).content
-        print("Cover Image URL:", image_url)
+        try:
+            img_data = requests.get(image_url).content
+        except Exception as e:
+            print("Error downloading image:", e)
+            return False
+
+        if not os.path.exists("images"):
+            os.makedirs("images")
+            
         with open("images/"+str(GAME_ID)+'.jpg', 'wb') as handler:
             handler.write(img_data)
         return True
