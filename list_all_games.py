@@ -25,15 +25,24 @@ url = "https://api.igdb.com/v4/games"
 headers = {
     'Client-ID': CLIENT_ID,
     'Authorization': f'Bearer {ACCESS_TOKEN}',
-    'Content-Type': 'application/json'
+    'Content-Type': 'text/plain'  # important: plain text, not json
 }
 
 all_games = []
 offset = 0
 limit = 500  # Max allowed per IGDB request
 
+ALLOWED_PLATFORMS = {130, 508}  # Switch and Switch 2
+
 while True:
-    payload = f"fields id,name,category,platforms; where platforms = 130; limit {limit}; offset {offset};"
+    # Loose filter: games that have platform 130 or 508 (including others)
+    payload = (
+        'fields id,name,category,platforms;'
+        ' where platforms != null'
+        ' & (platforms = [130] | platforms = [508] | platforms = [130, 508] | platforms = [508, 130]);'
+        f' limit {limit}; offset {offset};'
+    )
+    
     response = requests.post(url, headers=headers, data=payload)
 
     if response.status_code != 200:
@@ -44,8 +53,21 @@ while True:
     if not games:
         break  # No more results
 
-    all_games.extend(games)
+    # Filter locally: keep only games exclusive to platforms in ALLOWED_PLATFORMS
+    filtered_games = []
+    for game in games:
+        platforms = set(game.get("platforms", []))
+        # Only keep if all platforms in ALLOWED_PLATFORMS and length matches
+        if platforms and platforms.issubset(ALLOWED_PLATFORMS):
+            filtered_games.append(game)
+
+    if not filtered_games:
+        # If no filtered results, maybe we're done
+        break
+
+    all_games.extend(filtered_games)
     offset += limit
+
     time.sleep(0.25)  # Respect rate limit (4 requests/sec)
 
 for game in all_games:
@@ -58,4 +80,3 @@ for game in all_games:
         insert_image(game_name, f"{game_id}.jpg")
     else:
         print(f"No image found for {game_name} (ID: {game_id})")
-    
