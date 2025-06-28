@@ -11,8 +11,8 @@ def pixelize_image(input_path, output_path, pixel_size):
     result = small.resize(img.size, Image.NEAREST)
     result.save(output_path)
 
-
-
+# Example usage
+pixelize_image("images/76217.jpg", "pixelized.jpg", 50)
 
 # 100
 # 50

@@ -12,15 +12,17 @@ def index():
 
     if attempt_count == 0:
         pixelization_degree = 100
-    elif attempt_count == 1:
+    if attempt_count == 1:
         pixelization_degree = 50
-    elif attempt_count == 2:
+    if attempt_count == 2:
         pixelization_degree = 25
-    elif attempt_count == 3:
+    if attempt_count == 3:
         pixelization_degree = 10
-    elif attempt_count == 4:
+    if attempt_count == 4:
         pixelization_degree = 5
-    elif attempt_count == 5:
+    if attempt_count == 5:
+        pixelization_degree = 1
+    if attempt_count == 6:
         pixelization_degree = 1
 
 
@@ -36,6 +38,9 @@ def index():
         image = convert_image_to_base64(pixelize_image_path)
         response = make_response(render_template('index.html',b64_img = image))
         response.set_cookie("game", str(random_game_id), max_age=60*60*24)
+        if attempt_count < 6:
+            attempt_count += 1
+        response.set_cookie("attempts", str(attempt_count), max_age=60*60*24) 
         return response
 
     original_image_path = select_image(request.cookies.get("game"))
@@ -47,10 +52,10 @@ def index():
     image = convert_image_to_base64(pixelize_image_path)
 
     if request.method == "POST":
-        game_title = request.form.get("game")
+        game_title_guess = request.form.get("game")
         if attempt_count < 6:
             attempt_count += 1  # Increase attempt count
-        print(f"Attempt #{attempt_count}: {game_title}")
+        print(f"Attempt #{attempt_count}: {game_title_guess}")
         response = make_response(render_template('index.html', b64_img = image))
         response.set_cookie("attempts", str(attempt_count), max_age=60*60*24)  # 1 day expiry
         return response
