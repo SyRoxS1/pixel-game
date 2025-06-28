@@ -81,7 +81,18 @@ def index():
 
         if attempt_count == 1:
             guess1 = game_title_guess
-
+        elif attempt_count == 2:
+            guess2 = game_title_guess
+        elif attempt_count == 3:
+            guess3 = game_title_guess
+        elif attempt_count == 4:
+            guess4 = game_title_guess
+        elif attempt_count == 5:
+            guess5 = game_title_guess
+        elif attempt_count == 6:
+            guess6 = game_title_guess
+        
+        print(f"Guesses: {guess1}, {guess2}, {guess3}, {guess4}, {guess5}, {guess6}")
         response = make_response(render_template('index.html', b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6))
         response.set_cookie("guess"+str(attempt_count), game_title_guess, max_age=60*60*24)
 
