@@ -86,8 +86,11 @@ def index():
         if select_name(request.cookies.get("game")) == game_title_guess:
             print(f"Correct guess: {game_title_guess}")
             pixelization_degree = 1
-            pixelize_image_path = "tmp/"+str(random_game_id)+ str(attempt_count) +".jpg"
-            print(f"Pixelizing image at: {pixelize_image_path} to attempt count: {attempt_count} to {original_image_path}")
+            original_image_path = select_image(request.cookies.get("game"))
+            original_image_path = "images/" + original_image_path
+            print(f"Selected image path: {original_image_path}")
+
+            pixelize_image_path = "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg"
             pixelize_image(original_image_path, pixelize_image_path, pixelization_degree)
             image = convert_image_to_base64(pixelize_image_path)
             response = make_response(render_template('won.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=game_title_guess))
@@ -97,8 +100,11 @@ def index():
         elif attempt_count == 6:
             print(f"Incorrect guess: {game_title_guess}")
             pixelization_degree = 1
-            pixelize_image_path = "tmp/"+str(random_game_id)+ str(attempt_count) +".jpg"
-            print(f"Pixelizing image at: {pixelize_image_path} to attempt count: {attempt_count} to {original_image_path}")
+            original_image_path = select_image(request.cookies.get("game"))
+            original_image_path = "images/" + original_image_path
+            print(f"Selected image path: {original_image_path}")
+        
+            pixelize_image_path = "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg"
             pixelize_image(original_image_path, pixelize_image_path, pixelization_degree)
             image = convert_image_to_base64(pixelize_image_path)
             response = make_response(render_template('lost.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=select_name(request.cookies.get("game"))))
