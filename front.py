@@ -17,6 +17,7 @@ def index():
         return response
 
     original_image_path = select_image(request.cookies.get("game"))
+    print(f"Selected image path: {original_image_path}")
     pixelize_image(original_image_path, "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg",attempt_count)
     image = convert_image_to_base64("tmp/"+request.cookies.get("game")+ attempt_count +".jpg")
 
