@@ -62,20 +62,6 @@ def index():
         game_title_guess = request.form.get("game")
 
 
-        if select_name(request.cookies.get("game")) == game_title_guess:
-            print(f"Correct guess: {game_title_guess}")
-            attempt_count = 0
-            response = make_response(render_template('won.html',b64_img = image, winning_guess=game_title_guess))
-            response.set_cookie("won", str(1), max_age=60*60*24)
-            return response
-        
-        elif attempt_count == 6:
-            print(f"Incorrect guess: {game_title_guess}")
-            response = make_response(render_template('lost.html',b64_img = image, winning_guess=select_name(request.cookies.get("game"))))
-            response.set_cookie("won", str(0), max_age=60*60*24)
-            return response
-
-
         guess1 = request.cookies.get("guess1", "")
         guess2 = request.cookies.get("guess2", "")
         guess3 = request.cookies.get("guess3", "")
@@ -95,6 +81,23 @@ def index():
             guess5 = game_title_guess
         elif attempt_count == 6:
             guess6 = game_title_guess
+
+
+        if select_name(request.cookies.get("game")) == game_title_guess:
+            print(f"Correct guess: {game_title_guess}")
+            attempt_count = 0
+            response = make_response(render_template('won.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=game_title_guess))
+            response.set_cookie("won", str(1), max_age=60*60*24)
+            return response
+        
+        elif attempt_count == 6:
+            print(f"Incorrect guess: {game_title_guess}")
+            response = make_response(render_template('lost.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=select_name(request.cookies.get("game"))))
+            response.set_cookie("won", str(0), max_age=60*60*24)
+            return response
+
+
+        
         
         print(f"Guesses: {guess1}, {guess2}, {guess3}, {guess4}, {guess5}, {guess6}")
         response = make_response(render_template('index.html', b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6))
