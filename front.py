@@ -48,7 +48,8 @@ def index():
 
     if request.method == "POST":
         game_title = request.form.get("game")
-        attempt_count += 1  # Increase attempt count
+        if attempt_count < 6:
+            attempt_count += 1  # Increase attempt count
         print(f"Attempt #{attempt_count}: {game_title}")
         response = make_response(render_template('index.html', b64_img = image))
         response.set_cookie("attempts", str(attempt_count), max_age=60*60*24)  # 1 day expiry
