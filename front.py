@@ -17,17 +17,17 @@ def index():
     if attempt_count == 0:
         pixelization_degree = 100
     if attempt_count == 1:
-        pixelization_degree = 50
+        pixelization_degree = 70
     if attempt_count == 2:
-        pixelization_degree = 30
+        pixelization_degree = 50
     if attempt_count == 3:
-        pixelization_degree = 20
+        pixelization_degree = 30
     if attempt_count == 4:
-        pixelization_degree = 10
+        pixelization_degree = 20
     if attempt_count == 5:
-        pixelization_degree = 5
+        pixelization_degree = 10
     if attempt_count == 6:
-        pixelization_degree = 1
+        pixelization_degree = 100
 
 
     if not request.cookies.get("game"):
