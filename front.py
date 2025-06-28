@@ -11,8 +11,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST'],)
 def index():
     won = request.cookies.get("won", False)
-    if won:
-        return "You won! <a href='/'>Play again</a>"
+
     attempt_count = int(request.cookies.get("attempts", 0))
 
     if attempt_count == 0:
@@ -66,10 +65,15 @@ def index():
         if select_name(request.cookies.get("game")) == game_title_guess:
             print(f"Correct guess: {game_title_guess}")
             attempt_count = 0
-            response = make_response(render_template('index.html',b64_img = image))
+            response = make_response(render_template('won.html',b64_img = image, winning_guess=game_title_guess))
             response.set_cookie("won", str(1), max_age=60*60*24)
             return response
-
+        
+        elif attempt_count == 6:
+            print(f"Incorrect guess: {game_title_guess}")
+            response = make_response(render_template('lost.html',b64_img = image, winning_guess=select_name(request.cookies.get("game"))))
+            response.set_cookie("won", str(0), max_age=60*60*24)
+            return response
 
 
         guess1 = request.cookies.get("guess1", "")
@@ -119,6 +123,14 @@ def search():
 
     results = search_name(query)
     return jsonify(results)
+
+@app.route("/reset")
+def search():
+    resp = make_response(redirect('/'))  # or render_template(...) if you prefer
+    for cookie in request.cookies:
+        resp.set_cookie(cookie, '', expires=0)
+    return resp
+
 
 
 if __name__ == '__main__':
