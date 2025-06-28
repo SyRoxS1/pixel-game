@@ -1,9 +1,10 @@
-from flask import Flask, render_template, request, redirect, url_for, make_response
+from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify
 from pixelize import pixelize_image
 from convert_image_base64 import convert_image_to_base64
 from count_nb_images_in_table import count_images
 from dtb_select_game_img_path_from_rndm_nbrs import select_image
 from dtb_select_game_name_from_rndm_nbrs import select_name
+from dtb_search_game_name import search_name
 import random
 
 app = Flask(__name__)
@@ -82,6 +83,14 @@ def index():
     return render_template('index.html',b64_img = image)
 
 
+@app.route("/search")
+def search():
+    query = request.args.get("q", "")
+    if not query:
+        return jsonify([])
+
+    results = search_name(query)
+    return jsonify(results)
 
 
 if __name__ == '__main__':

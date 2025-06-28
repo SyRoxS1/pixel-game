@@ -25,10 +25,42 @@
         <img src="{{ b64_img }}" alt="Pixelated movie">
       </div>
     </div>
-    <form class="input-form" action="/" method="POST">
-      <input type="text" name="game" placeholder="Game title.." required>
+    <form class="input-form" action="/" method="POST" autocomplete="off">
+      <input id="search-box" type="text" name="game" placeholder="Game title.." required>
+      <ul id="suggestions" class="suggestions-list"></ul>
       <button type="submit">Submit</button>
     </form>
   </div>
 </body>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const searchBox = document.getElementById("search-box");
+  const suggestionsList = document.getElementById("suggestions");
+
+  searchBox.addEventListener("input", async () => {
+    const query = searchBox.value;
+
+    if (!query) {
+      suggestionsList.innerHTML = "";
+      return;
+    }
+
+    const response = await fetch(`/search?q=${encodeURIComponent(query)}`);
+    const names = await response.json();
+
+    suggestionsList.innerHTML = "";
+
+    names.forEach(name => {
+      const item = document.createElement("li");
+      item.textContent = name;
+      item.addEventListener("click", () => {
+        searchBox.value = name;
+        suggestionsList.innerHTML = "";
+      });
+      suggestionsList.appendChild(item);
+    });
+  });
+});
+</script>
+
 </html>
