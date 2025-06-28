@@ -10,6 +10,20 @@ app = Flask(__name__)
 def index():
     attempt_count = int(request.cookies.get("attempts", 0))
 
+    if attempt_count == 0:
+        pixelization_degree = 100
+    elif attempt_count == 1:
+        pixelization_degree = 50
+    elif attempt_count == 2:
+        pixelization_degree = 25
+    elif attempt_count == 3:
+        pixelization_degree = 10
+    elif attempt_count == 4:
+        pixelization_degree = 5
+    elif attempt_count == 5:
+        pixelization_degree = 1
+
+
     if not request.cookies.get("game"):
         random_game_id = random.randint(0, count_images())
         original_image_path = select_image(request.cookies.get("game"))
@@ -18,7 +32,7 @@ def index():
 
         pixelize_image_path = "tmp/"+str(random_game_id)+ str(attempt_count) +".jpg"
         print(f"Pixelizing image at: {pixelize_image_path} to attempt count: {attempt_count} to {original_image_path}")
-        pixelize_image(original_image_path, pixelize_image_path, attempt_count)
+        pixelize_image(original_image_path, pixelize_image_path, pixelization_degree)
         image = convert_image_to_base64(pixelize_image_path)
         response = make_response(render_template('index.html',b64_img = image))
         response.set_cookie("game", str(random_game_id), max_age=60*60*24)
@@ -29,7 +43,7 @@ def index():
     print(f"Selected image path: {original_image_path}")
 
     pixelize_image_path = "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg"
-    pixelize_image(original_image_path, pixelize_image_path, attempt_count)
+    pixelize_image(original_image_path, pixelize_image_path, pixelization_degree)
     image = convert_image_to_base64(pixelize_image_path)
 
     if request.method == "POST":
