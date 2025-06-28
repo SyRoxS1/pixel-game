@@ -31,7 +31,7 @@ def index():
     if attempt_count == 6:
         pixelization_degree = 1
 
-
+    # If no game cookie is set, start a new game
     if not request.cookies.get("game"):
         random_game_id = random.randint(0, count_images())
         original_image_path = select_image(random_game_id)
@@ -62,7 +62,8 @@ def index():
     if request.method == "POST":
 
         game_title_guess = request.form.get("game")
-
+        if select_name(request.cookies.get("game")) != game_title_guess:
+            game_title_guess += "❌"
 
         guess1 = request.cookies.get("guess1", "")
         guess2 = request.cookies.get("guess2", "")
@@ -101,8 +102,6 @@ def index():
             return response
         
         elif attempt_count == 6:
-            print(f"Incorrect guess: {game_title_guess}")
-            game_title_guess += "❌"
             pixelization_degree = 1
             original_image_path = select_image(request.cookies.get("game"))
             original_image_path = "images/" + original_image_path
@@ -114,9 +113,7 @@ def index():
             response = make_response(render_template('lost.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=select_name(request.cookies.get("game"))))
             response.set_cookie("won", str(0), max_age=60*60*24)
             return response
-        else:
-            print(f"Incorrect guess: {game_title_guess}")
-            game_title_guess += "❌"
+
 
         
         
