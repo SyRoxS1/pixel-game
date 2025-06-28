@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pixel Switch Game</title>
+  <link rel="icon" href="{{ url_for('static', filename='nintendo-switch-logo.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="help">❓</span>
+      <title>Pixel Switch Game</title>
+    </div>
+    <div class="content">
+      <div class="guesses">
+        <input type="text" disabled>
+        <input type="text" disabled>
+        <input type="text" disabled>
+        <input type="text" disabled>
+        <input type="text" disabled>
+        <input type="text" disabled>
+      </div>
+      <div class="pixel-image">
+        <img src="{{ b64_img }}" alt="Pixelated movie">
+      </div>
+    </div>
+    <form class="input-form" action="/" method="POST">
+      <input type="text" name="game" placeholder="Game title.." required>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</body>
+</html>
