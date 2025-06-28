@@ -26,8 +26,10 @@ def index():
         pixelization_degree = 20
     if attempt_count == 5:
         pixelization_degree = 10
+
+    # Value shouldnt be used, but just in case
     if attempt_count == 6:
-        pixelization_degree = 100
+        pixelization_degree = 1
 
 
     if not request.cookies.get("game"):
@@ -126,7 +128,7 @@ def index():
         return response
     
     if attempt_count == 6:
-        return "Finished"
+        return redirect("/reset")
     
     print(f"Attempt #{attempt_count}: {request.cookies.get('game')}")
     
