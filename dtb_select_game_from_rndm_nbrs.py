@@ -8,9 +8,9 @@ def select_image(number):
     # Insert the image path and game name into the database
     cursor.execute(
         "SELECT image_path FROM image_game_link ORDER BY image_path LIMIT 1 OFFSET %s;",
-        (number)
+        (number,)
     )
-    
+
     result = cursor.fetchone()
     cursor.close()
     conn.close()
