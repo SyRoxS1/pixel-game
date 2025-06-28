@@ -9,7 +9,7 @@ if not os.path.exists("secret_client_id"):
     secret = input("Enter your IGDB Client ID: ")
     with open("secret_client_id", "w") as f:
         f.write(secret)
-        
+
 if not os.path.exists("secret_client_key"):
     secret = input("Enter your IGDB Access Token: ")
     with open("secret_client_key", "w") as f:

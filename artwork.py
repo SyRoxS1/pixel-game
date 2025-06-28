@@ -1,23 +1,25 @@
 import requests
 import os
 
-if not os.path.exists("secret_client_id"):
-    secret = input("Enter your IGDB Client ID: ")
-    with open("secret_client_id", "w") as f:
-        f.write(secret)
-        
-if not os.path.exists("secret_client_key"):
-    secret = input("Enter your IGDB Access Token: ")
-    with open("secret_client_key", "w") as f:
-        f.write(secret)
 
-with open("secret_client_id","r") as f:
-    CLIENT_ID = f.read().strip()
-
-with open("secret_access_token","r") as f:
-    ACCESS_TOKEN = f.read().strip()
 
 def dl_image(GAME_ID):
+    if not os.path.exists("secret_client_id"):
+        secret = input("Enter your IGDB Client ID: ")
+    with open("secret_client_id", "w") as f:
+        f.write(secret)
+            
+    if not os.path.exists("secret_client_key"):
+        secret = input("Enter your IGDB Access Token: ")
+        with open("secret_client_key", "w") as f:
+            f.write(secret)
+    
+    with open("secret_client_id","r") as f:
+        CLIENT_ID = f.read().strip()
+    
+    with open("secret_access_token","r") as f:
+        ACCESS_TOKEN = f.read().strip()
+        
     # Set the API endpoint
     url = 'https://api.igdb.com/v4/artworks'
 
