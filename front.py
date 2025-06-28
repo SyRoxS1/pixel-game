@@ -9,8 +9,9 @@ import random
 app = Flask(__name__)
 @app.route('/', methods=['GET','POST'],)
 def index():
-    if Won == True:
-        return render_template('won.html', game_name=select_name(request.cookies.get("game")))
+    won = request.cookies.get("won", False)
+    if won:
+        return "You won! <a href='/'>Play again</a>"
     attempt_count = int(request.cookies.get("attempts", 0))
 
     if attempt_count == 0:
@@ -60,7 +61,8 @@ def index():
         if select_name(request.cookies.get("game")) == game_title_guess:
             print(f"Correct guess: {game_title_guess}")
             attempt_count = 0
-            Won = True
+            response.set_cookie("won", 1, max_age=60*60*24)
+
 
         if attempt_count < 6:
             attempt_count += 1  # Increase attempt count
