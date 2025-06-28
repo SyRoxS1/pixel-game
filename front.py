@@ -32,7 +32,7 @@ def index():
 
     if not request.cookies.get("game"):
         random_game_id = random.randint(0, count_images())
-        original_image_path = select_image(request.cookies.get("game"))
+        original_image_path = select_image(random_game_id)
         original_image_path = "images/" + original_image_path
         print(f"Selected image path: {original_image_path}")
 
@@ -58,6 +58,8 @@ def index():
     if request.method == "POST":
 
         game_title_guess = request.form.get("game")
+
+
         if select_name(request.cookies.get("game")) == game_title_guess:
             print(f"Correct guess: {game_title_guess}")
             attempt_count = 0
@@ -68,6 +70,7 @@ def index():
             attempt_count += 1  # Increase attempt count
         print(f"Attempt #{attempt_count}: {game_title_guess}")
         response = make_response(render_template('index.html', b64_img = image))
+        response.set_cookie("guess"+str(attempt_count), game_title_guess, max_age=60*60*24)
         response.set_cookie("attempts", str(attempt_count), max_age=60*60*24)  # 1 day expiry
         return response
     
