@@ -13,6 +13,7 @@ def index():
     if not request.cookies.get("game"):
         random_game_id = random.randint(0, count_images())
         original_image_path = select_image(request.cookies.get("game"))
+        original_image_path = "images/" + original_image_path
         print(f"Selected image path: {original_image_path}")
 
         pixelize_image_path = "tmp/"+str(random_game_id)+ str(attempt_count) +".jpg"
@@ -24,6 +25,7 @@ def index():
         return response
 
     original_image_path = select_image(request.cookies.get("game"))
+    original_image_path = "images/" + original_image_path
     print(f"Selected image path: {original_image_path}")
 
     pixelize_image_path = "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg"
