@@ -65,7 +65,7 @@ def index():
             print(f"Correct guess: {game_title_guess}")
             attempt_count = 0
             response = make_response(render_template('index.html',b64_img = image))
-            response.set_cookie("won", 1, max_age=60*60*24)
+            response.set_cookie("won", str(1), max_age=60*60*24)
             return response
 
 
