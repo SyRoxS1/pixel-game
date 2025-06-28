@@ -43,6 +43,8 @@ def index():
         image = convert_image_to_base64(pixelize_image_path)
         response = make_response(render_template('index.html',b64_img = image))
         response.set_cookie("game", str(random_game_id), max_age=60*60*24)
+        
+
         if attempt_count < 6:
             attempt_count += 1
         response.set_cookie("attempts", str(attempt_count), max_age=60*60*24) 
@@ -69,9 +71,7 @@ def index():
             return response
 
 
-        if attempt_count < 6:
-            attempt_count += 1  # Increase attempt count
-        print(f"Attempt #{attempt_count}: {game_title_guess}")
+
         guess1 = request.cookies.get("guess1", "")
         guess2 = request.cookies.get("guess2", "")
         guess3 = request.cookies.get("guess3", "")
@@ -79,7 +79,16 @@ def index():
         guess5 = request.cookies.get("guess5", "")
         guess6 = request.cookies.get("guess6", "")
 
+        if attempt_count == 1:
+            guess1 = game_title_guess
+
+
+        if attempt_count < 6:
+            attempt_count += 1  # Increase attempt count
+        print(f"Attempt #{attempt_count}: {game_title_guess}")
         
+
+
 
 
         response = make_response(render_template('index.html', b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6))
