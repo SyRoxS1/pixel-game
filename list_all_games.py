@@ -74,6 +74,9 @@ for game in all_games:
     game_id = game["id"]
     game_name = game["name"]
     print(f"Game ID: {game_id}, Name: {game_name}")
+    if os.path.exists(f"images/{game_id}.jpg"):
+        print(f"Image already exists for {game_name} (ID: {game_id})")
+        continue
     downloading = dl_image(game_id)
     if downloading:
         print(f"Downloaded image for {game_name} (ID: {game_id})")
