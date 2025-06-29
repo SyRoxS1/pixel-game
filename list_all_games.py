@@ -76,6 +76,7 @@ for game in all_games:
     print(f"Game ID: {game_id}, Name: {game_name}")
     if os.path.exists(f"images/{game_id}.jpg"):
         print(f"Image already exists for {game_name} (ID: {game_id})")
+        insert_image(game_name, f"{game_id}.jpg")
         continue
     downloading = dl_image(game_id)
     if downloading:
