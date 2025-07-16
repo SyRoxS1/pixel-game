@@ -1,7 +1,13 @@
 __pycache__
 .env
+.venv
 images
 secret*
 no_cover.txt
 db_password
 request2.py
+import/*.jpg
+import/*.png
+import/*.jpeg
+import/*.gif
+import/*.webp
