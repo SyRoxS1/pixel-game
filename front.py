@@ -68,7 +68,7 @@ def index():
         if attempt_count == 5:
             pixelization_degree = 10
 
-
+        attempt_count += 1
         guess1 = request.cookies.get("guess1", "")
         guess2 = request.cookies.get("guess2", "")
         guess3 = request.cookies.get("guess3", "")
