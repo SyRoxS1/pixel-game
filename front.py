@@ -51,6 +51,27 @@ def index():
         response.set_cookie("attempts", str(attempt_count), max_age=60*60*24) 
         return response
 
+    if attempt_count > 0 and request.method == "GET":
+        guess1 = request.cookies.get("guess1", "")
+        guess2 = request.cookies.get("guess2", "")
+        guess3 = request.cookies.get("guess3", "")
+        guess4 = request.cookies.get("guess4", "")
+        guess5 = request.cookies.get("guess5", "")
+        guess6 = request.cookies.get("guess6", "")
+
+        original_image_path = select_image(request.cookies.get("game"))
+        original_image_path = "images/" + original_image_path
+        print(f"Selected image path: {original_image_path}")
+
+        pixelize_image_path = "tmp/"+str(request.cookies.get("game"))+ str(attempt_count) +".jpg"
+        pixelize_image(original_image_path, pixelize_image_path, pixelization_degree)
+        image = convert_image_to_base64(pixelize_image_path)
+        response = make_response(render_template('won.html',b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6,winning_guess=game_title_guess))
+
+        response = make_response(render_template('index.html', b64_img = image, guess1=guess1, guess2=guess2, guess3=guess3, guess4=guess4, guess5=guess5, guess6=guess6))
+        response.set_cookie("guess"+str(attempt_count), game_title_guess, max_age=60*60*24)
+        return response
+
     original_image_path = select_image(request.cookies.get("game"))
     original_image_path = "images/" + original_image_path
     print(f"Selected image path: {original_image_path}")
