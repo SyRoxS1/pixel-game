@@ -52,6 +52,23 @@ def index():
         return response
 
     if attempt_count > 0 and request.method == "GET":
+
+        attempt_count -= 1
+
+        if attempt_count == 0:
+            pixelization_degree = 100
+        if attempt_count == 1:
+            pixelization_degree = 70
+        if attempt_count == 2:
+            pixelization_degree = 50
+        if attempt_count == 3:
+            pixelization_degree = 30
+        if attempt_count == 4:
+            pixelization_degree = 20
+        if attempt_count == 5:
+            pixelization_degree = 10
+
+
         guess1 = request.cookies.get("guess1", "")
         guess2 = request.cookies.get("guess2", "")
         guess3 = request.cookies.get("guess3", "")
