@@ -33,7 +33,7 @@ def index():
 
     # If no game cookie is set, start a new game
     if not request.cookies.get("game"):
-        random_game_id = random.randint(0, count_images())
+        random_game_id = random.randint(0, (count_images())- 1)
         original_image_path = select_image(random_game_id)
         original_image_path = "images/" + original_image_path
         print(f"Selected image path: {original_image_path}")
