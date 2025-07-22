@@ -1,10 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify
 from pixelize import pixelize_image
 from convert_image_base64 import convert_image_to_base64
-from count_nb_images_in_table import count_images
-from dtb_select_game_img_path_from_rndm_nbrs import select_image
-from dtb_select_game_name_from_rndm_nbrs import select_name
-from dtb_search_game_name import search_name
+
+
+from search_movie_name import search_name
 import random
 
 app = Flask(__name__)
@@ -192,4 +191,4 @@ def reset():
 
 
 if __name__ == '__main__':
-    app.run(debug=True,port=80,host='10.0.0.16')
+    app.run(debug=True,port=80,host='127.0.0.1')
